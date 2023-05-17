@@ -3,9 +3,12 @@ package com.sdu.service.impl;
 
 import com.sdu.model.Appointment;
 import com.sdu.model.AppointmentStatus;
+import com.sdu.model.TestCenter;
 import com.sdu.model.TestCenterTimeSlot;
 import com.sdu.payload.appointment.AppointmentRequestDTO;
+import com.sdu.payload.appointment.AppointmentTestCenterDTO;
 import com.sdu.repository.AppointmentRepository;
+import com.sdu.repository.TestCenterRepository;
 import com.sdu.repository.TestCenterTimeSlotRepository;
 import com.sdu.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -27,15 +32,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private TestCenterTimeSlotRepository testCenterTimeSlotRepository;
+
+    @Autowired
+    private TestCenterRepository testCenterRepository;
     @Override
     public Appointment createAppointment(AppointmentRequestDTO appointmentRequestDTO) {
         TestCenterTimeSlot timeSlot = testCenterTimeSlotRepository.findById(appointmentRequestDTO.getTimeSlotId()).orElseThrow();
         timeSlot.setBooked(true);
+        TestCenter testCenter = testCenterRepository.findById(timeSlot.getTestCenter().getId()).orElseThrow();
         return appointmentRepository.save(Appointment.builder()
                         .timeSlot(timeSlot)
                         .email(appointmentRequestDTO.getEmail())
                         .name(appointmentRequestDTO.getName())
                         .status(AppointmentStatus.WAITING_FOR_CONFIRMATION)
+                        .testCenter(testCenter)
                         .build()
 
                 );
@@ -95,5 +105,21 @@ public class AppointmentServiceImpl implements AppointmentService {
         } else {
             throw new Exception("Appointment not found.");
         }
+    }
+    public List<AppointmentTestCenterDTO> getAppointmentsByTestCenterId(Long testCenterId) {
+
+        List<Appointment> appointments = appointmentRepository.findByTestCenterId(testCenterId);
+        return appointments.stream().map(this::convertToDTO).collect(Collectors.toList());
+
+    }
+    public AppointmentTestCenterDTO convertToDTO(Appointment appointment) {
+        AppointmentTestCenterDTO dto = new AppointmentTestCenterDTO();
+        dto.setAppointmentId(appointment.getId());
+        dto.setAppointmentDate(appointment.getTimeSlot().getDate().toString());
+        dto.setAppointmentTime(appointment.getTimeSlot().getTime().toString());
+        dto.setTestCenterId(appointment.getTestCenter().getId());
+        dto.setTestCenterName(appointment.getTestCenter().getName());
+        dto.setTestCenterAddress(appointment.getTestCenter().getAddress());
+        return dto;
     }
 }

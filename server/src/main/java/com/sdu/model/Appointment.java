@@ -29,5 +29,10 @@ public class Appointment {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AppointmentStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "test_center_id", nullable = false)
+    private TestCenter testCenter;
+
 }
 

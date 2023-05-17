@@ -3,6 +3,7 @@ package com.sdu.controller;
 
 import com.sdu.model.Appointment;
 import com.sdu.payload.appointment.AppointmentRequestDTO;
+import com.sdu.payload.appointment.AppointmentTestCenterDTO;
 import com.sdu.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,6 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -69,5 +72,10 @@ public class AppointmentController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error confirming the appointment.");
         }
+    }
+
+    @GetMapping("/appointments")
+    public List<AppointmentTestCenterDTO> getAppointmentsByTestCenterId(@RequestParam Long testCenterId) {
+        return appointmentService.getAppointmentsByTestCenterId(testCenterId);
     }
 }
