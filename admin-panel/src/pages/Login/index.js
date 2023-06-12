@@ -7,6 +7,7 @@ import {
   Button,
   Grid,
 } from '@mui/material';
+import { GoogleLogin } from 'react-google-login';
 
 const useStyles = makeStyles({
   root: {
@@ -37,6 +38,11 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+
+  const responseGoogle = (response) => {
+    console.log(response);
+    // Send 'response.tokenId' to your back-end
+  }
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
   };
@@ -51,6 +57,9 @@ const Login = () => {
   };
 
   return (
+
+
+    
     <Container maxWidth="xs" className={classes.root}>
       <Typography variant="h4" align="center" gutterBottom>
         Login
@@ -82,6 +91,13 @@ const Login = () => {
           Sign in
         </Button>
       </form>
+      <GoogleLogin 
+        clientId="your-google-client-id"
+        buttonText="Login with Google"
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={'single_host_origin'}
+      />
     </Container>
   );
 };

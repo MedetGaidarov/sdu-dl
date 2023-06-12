@@ -1,12 +1,21 @@
 // TestCenterPage.js
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Typography, List, ListItem, ListItemText } from '@mui/material';
-import AppointmentList from '../../../containers/AppointmentList';
-import { getTestCenters } from '../../../services/api/testCenters';
+import React, { useState, useEffect } from "react";
+import { Typography, List, ListItem, ListItemText } from "@mui/material";
+import AppointmentList from "../../../containers/AppointmentList";
+import { getAppointmentsByTestCenterId } from "../../../services/api/appointments";
 
 const TestCenter = ({ testCenter }) => {
+  const [appointments, setAppointments] = useState([]);
+  
+  useEffect(() => {
+    getAppointmentsByTestCenterId(testCenter.id).then((appointments) => {
+      if (appointments) {
+        setAppointments(appointments);
+      }
+    });
+  }, [testCenter.id]);
 
+  console.log(appointments)
 
   if (!testCenter) {
     return <Typography variant="h4">Loading...</Typography>;
@@ -20,7 +29,7 @@ const TestCenter = ({ testCenter }) => {
       <Typography variant="h5" gutterBottom>
         Appointments
       </Typography>
-        <AppointmentList appointments = {testCenter.appointments}/>
+      <AppointmentList appointments={appointments} />
     </div>
   );
 };

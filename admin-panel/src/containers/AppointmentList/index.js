@@ -21,8 +21,8 @@ const AppointmentList = ({ appointments }) => {
             <TableCell>ID</TableCell>
             <TableCell>Date</TableCell>
             <TableCell>Time</TableCell>
-            <TableCell>User ID</TableCell>
             <TableCell>Status</TableCell>
+            <TableCell>Email</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -31,7 +31,8 @@ const AppointmentList = ({ appointments }) => {
               <TableCell>{appointment.id}</TableCell>
               <TableCell>{appointment.date}</TableCell>
               <TableCell>{appointment.time}</TableCell>
-              <TableCell>{appointment.userId}</TableCell>
+              <TableCell>{appointment.email}</TableCell>
+  
               <TableCell>
                 <span style={{ color: getStatusColor(appointment.appointmentStatus) }}>
                   {appointment.appointmentStatus}

@@ -9,6 +9,7 @@ import AppHeader from './components/AppHeader';
 import TestCenter from './pages/TestCenters/TestCenter';
 import TestCenterList from './containers/TestCenterList';
 import { getTestCenters } from './services/api/testCenters';
+import TestCenterEdit from './containers/TestCenterEdit';
 
 const MainLayout = ({ children }) => {
  
@@ -25,14 +26,21 @@ const MainLayout = ({ children }) => {
 
 const App = () => {
   const [testCenters, setTestCenters] = useState([]);
-
+  
 
   useEffect(() => {
     const fetchTestCenters = async () => {
       try {
         const data = await getTestCenters();
+
+
+
+        if (!Array.isArray(data)) {
+          console.error('testCenters is not an array:', data);
+          return;
+        }
         setTestCenters(data);
-        console.log(testCenters, 'mytests')
+
       } catch (error) {
         console.error('Error fetching test centers:', error);
       }
@@ -52,8 +60,10 @@ const App = () => {
           <MainLayout>
             <Switch>
               <Route exact path="/" component={Home} />
+
               <Route path="/appointments" component={Appointments} />
               <Route path="/test-centers" component={TestCenters} />
+              <Route path="/editTestCenter/:id" component={TestCenterEdit} />
               <Route
                     path="/test-centers"
                     render={(props) => <TestCenterList {...props} testCenters={testCenters} />}
