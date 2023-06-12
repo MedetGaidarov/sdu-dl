@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
-import { makeStyles } from '@mui/styles';
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Grid,
-} from '@mui/material';
+import React, { useState } from "react";
+import { makeStyles } from "@mui/styles";
+import { Container, Typography, TextField, Button, Grid } from "@mui/material";
+import { login } from "../../actions/authActions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
     marginTop: 50,
   },
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 30,
   },
   textField: {
@@ -24,18 +20,19 @@ const useStyles = makeStyles({
   },
   submitButton: {
     marginTop: 20,
-    backgroundColor: '#1976d2',
-    color: '#ffffff',
-    '&:hover': {
-      backgroundColor: '#115293',
+    backgroundColor: "#1976d2",
+    color: "#ffffff",
+    "&:hover": {
+      backgroundColor: "#115293",
     },
   },
 });
 
 const Login = () => {
   const classes = useStyles();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("")
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -44,10 +41,13 @@ const Login = () => {
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
   };
-
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     // Send email and password to server for authentication
+    login(username, password);
   };
 
   return (
@@ -57,12 +57,12 @@ const Login = () => {
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
-          label="Email"
+          label="Username"
           variant="outlined"
           fullWidth
           className={classes.textField}
-          value={email}
-          onChange={handleEmailChange}
+          value={username}
+          onChange={handleUsernameChange}
         />
         <TextField
           label="Password"
@@ -86,4 +86,13 @@ const Login = () => {
   );
 };
 
-export default Login;
+const mapStateToProps = (state) => ({
+  loading: state.loading,
+  error: state.error,
+});
+
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
