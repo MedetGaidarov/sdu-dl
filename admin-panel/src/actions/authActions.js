@@ -1,23 +1,26 @@
-export const login = (username, password) => {
+import axios from "axios";
+import { LOGIN_FAIL, LOGIN_SUCCESS } from "./types";
 
-    return async (dispatch) => {
-      dispatch({ type: 'LOGIN_REQUEST' });
-        
-        
-    
-      try {
-        const response = await loginUser(username, password);
+export const login = (loginRequest) => dispatch => {
+
   
-        if (response.success) {
-          // Successful login
-          dispatch({ type: 'LOGIN_SUCCESS', payload: response.token });
-        } else {
-          // Failed login
-          dispatch({ type: 'LOGIN_FAILURE', payload: response.error });
-        }
-      } catch (error) {
-        // Handle API error
-        dispatch({ type: 'LOGIN_FAILURE', payload: 'An error occurred during login' });
+  const config = {
+      headers: {
+          "Content-Type": "application/json"
       }
-    };
   };
+
+  const body = JSON.stringify(loginRequest);
+
+  axios
+      .post("http://localhost:5000/api/auth/signin", body, config)
+      .then(res => {
+          console.log('Successfull logged in!')
+          dispatch({type: LOGIN_SUCCESS, payload: res.data});
+      })
+      .catch(err => {
+
+          console.log('Something goes wrong!', err)       
+             dispatch({type: LOGIN_FAIL});
+      });
+}

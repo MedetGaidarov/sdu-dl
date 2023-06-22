@@ -7,7 +7,8 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-
+import { connect, useDispatch } from 'react-redux';
+import { login } from '../../actions/authActions';
 const useStyles = makeStyles({
   root: {
     marginTop: 50,
@@ -37,7 +38,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("")
-
+  const dispatch = useDispatch();
 
   const responseGoogle = (response) => {
     console.log(response);
@@ -55,8 +56,13 @@ const Login = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const loginRequest = {
+      username: username,
+      password: password
+  }
     // Send email and password to server for authentication
-    login(username, password);
+ 
+    dispatch(login(loginRequest))
   };
 
   return (
@@ -94,13 +100,7 @@ const Login = () => {
           Sign in
         </Button>
       </form>
-      <GoogleLogin 
-        clientId="your-google-client-id"
-        buttonText="Login with Google"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        cookiePolicy={'single_host_origin'}
-      />
+   
     </Container>
   );
 };
@@ -111,7 +111,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  login,
-};
+  login
+};  
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
