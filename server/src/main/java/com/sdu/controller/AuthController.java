@@ -50,9 +50,8 @@ public class AuthController {
                 // Get profile information from payload
                 String userId = payload.getSubject();
                 String email = payload.getEmail();
-                // Handle user login in your application (create user, generate JWT, etc.)
             } else {
-                // Invalid ID token.
+
                 return new ResponseEntity<>("Invalid ID token.", HttpStatus.UNAUTHORIZED);
             }
         } catch (GeneralSecurityException | IOException e) {

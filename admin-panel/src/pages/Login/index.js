@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@mui/styles';
 import {
   Container,
@@ -7,9 +7,9 @@ import {
   Button,
   Grid,
 } from '@mui/material';
-import { connect, useDispatch } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { login } from '../../actions/authActions';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import {useNavigate} from 'react-router-dom'
 const useStyles = makeStyles({
   root: {
     marginTop: 50,
@@ -40,15 +40,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("")
   const dispatch = useDispatch();
-  const history = useHistory();
-
-  const responseGoogle = (response) => {
-    console.log(response);
-    // Send 'response.tokenId' to your back-end
-  }
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  
+  const navigate = useNavigate();
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -64,8 +57,10 @@ const Login = () => {
   }
     // Send email and password to server for authentication
  
-    dispatch(login(loginRequest))
+     dispatch(login(loginRequest))
+     
   };
+
 
   return (
 
@@ -103,7 +98,7 @@ const Login = () => {
         </Button>
       </form>
       <button
-                onClick={() => history.push('/register')}
+                onClick={() => navigate('/register')}
             >
                 Go to Registration
             </button>

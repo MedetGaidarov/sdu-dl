@@ -13,10 +13,11 @@ import {
   People as PeopleIcon,
   LocationOn as LocationOnIcon,
 } from '@mui/icons-material';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Navigation = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
@@ -44,8 +45,10 @@ const Navigation = () => {
             <ListItem
               key={text}
               button
-              component={Link}
-              to={to}
+              onClick={() => {
+                navigate(to);
+                handleDrawerClose();
+              }}
               selected={to === location.pathname}
             >
               <ListItemIcon>{icon}</ListItemIcon>

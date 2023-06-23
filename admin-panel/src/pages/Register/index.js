@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Container, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
+import { useNavigate } from 'react-router-dom';
 const useStyles = makeStyles({
     root: {
       marginTop: 50,
@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 
 function Registration() {
     const classes = useStyles();
-    const history = useHistory();
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
@@ -123,7 +123,7 @@ function Registration() {
           </Button>
         </form>
         <button
-            onClick={() => history.push('/login')}
+            onClick={() => navigate('/login')}
         >
             Go to Login
         </button>

@@ -4,6 +4,7 @@ import React from 'react';
 import { AppBar, Toolbar, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Navigation from './Navigation';
+import Logout from '../Logout';
 
 const useStyles = makeStyles({
   appBar: {
@@ -25,7 +26,10 @@ const AppHeader = () => {
         <Typography variant="h6" className={classes.title}>
           Driving License Booking App
         </Typography>
+        <Logout/>
       </Toolbar>
+
+      
     </AppBar>
   );
 };

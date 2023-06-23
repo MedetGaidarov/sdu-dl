@@ -1,5 +1,5 @@
 import axios from "axios";
-import { LOGIN_FAIL, LOGIN_SUCCESS } from "./types";
+import { LOGIN_FAIL, LOGIN_SUCCESS, LOGOUT_SUCCESS } from "./types";
 
 export const login = (loginRequest) => dispatch => {
 
@@ -23,4 +23,11 @@ export const login = (loginRequest) => dispatch => {
           console.log('Something goes wrong!', err)       
              dispatch({type: LOGIN_FAIL});
       });
+}
+
+
+export const logout = dispatch =>
+{
+    
+      dispatch({type: LOGOUT_SUCCESS});
 }

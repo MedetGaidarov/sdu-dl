@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router , Routes, Route, useNavigate} from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Appointments from './pages/Appointments';
@@ -12,11 +12,13 @@ import { getTestCenters } from './services/api/testCenters';
 import TestCenterEdit from './containers/TestCenterEdit';
 import { useSelector } from 'react-redux';
 
-import store from "./store";
-import { Provider } from "react-redux";
 import Registration from './pages/Register';
+import Users from './pages/Users';
+
 
 const MainLayout = ({ children }) => {
+
+  
   return (
     <>
       <AppHeader />
@@ -26,13 +28,15 @@ const MainLayout = ({ children }) => {
   );
 };
 
-const App = () => {
 
+
+const App = () => {
   const [testCenters, setTestCenters] = useState([]);
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   console.log(isLoggedIn)
+  const navigate = useNavigate();
 
-
+  
   useEffect(() => {
     const fetchTestCenters = async () => {
       try {
@@ -51,48 +55,48 @@ const App = () => {
 
      
     };
-    if(isLoggedIn) {
-     
-    fetchTestCenters();
-    }
+
+      if(isLoggedIn) {
+        fetchTestCenters();
+        navigate('/');
+      } else {
+        navigate('/login');
+      }
+  
   }, [isLoggedIn]);
   return (
 
-      <Router>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Registration} />
-          <Route
-            path="/"
-            render={() => (
-              <MainLayout >
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/appointments" component={Appointments} />
-                  <Route path="/test-centers" component={TestCenters} />
-                  <Route
-                    path="/test-centers"
-                    render={(props) => (
-                      <TestCenterList {...props} testCenters={testCenters} />
-                    )}
-                  />
-                  <Route
-                    path="/test-center/:id"
-                    render={(props) => {
-                      const testCenter = testCenters.find(
-                        (tc) => tc.id === parseInt(props.match.params.id, 10)
-                      );
-                      return testCenter ? (
-                        <TestCenter {...props} testCenter={testCenter} />
-                      ) : null;
-                    }}
-                  />
-                </Switch>
-              </MainLayout>
-            )}
-          />
-        </Switch>
-      </Router>
+     
+     
+
+
+        <Routes>
+          <Route path="/login" element = {<Login/>} />
+          <Route path="/register" element = {<Registration/>} /> 
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/appointments" element={<Appointments />} />
+            <Route path="/test-centers" element={<TestCenters />} />
+            <Route
+              path="/test-centers"
+              element={<TestCenterList testCenters={testCenters} />}
+            />
+            <Route
+              path="test-center/:id"
+              element={(props) => {
+                const testCenter = testCenters.find(
+                  (tc) => tc.id === parseInt(props.match.params.id, 10)
+                );
+                return testCenter ? (
+                  <TestCenter testCenter={testCenter} />
+                ) : null;
+              }}
+            />
+          </Route>
+       </Routes>
+     
+
 
   );
 };

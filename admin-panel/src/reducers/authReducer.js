@@ -14,6 +14,8 @@ const initialState = {
         return { ...state, loading: false, token: action.payload, error: null, isLoggedIn: true };
       case 'LOGIN_FAIL':
         return { ...state, loading: false, token: null, error: action.payload, isLoggedIn:false };
+      case 'LOGOUT_SUCCESS':
+        return { ...state, loading: false, token: null, error: action.payload, isLoggedIn:false };
       default:
         return state;
     }
