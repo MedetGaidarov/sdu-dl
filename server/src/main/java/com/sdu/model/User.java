@@ -4,6 +4,7 @@ import com.sdu.model.audit.DateAudit;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -39,8 +40,6 @@ public class User extends DateAudit {
 
     @Column(nullable = false)
     private String lastName;
-
-
 
 }
 
