@@ -13,7 +13,7 @@ export const login = (loginRequest) => dispatch => {
   const body = JSON.stringify(loginRequest);
 
   axios
-      .post("http://localhost:5000/api/auth/signin", body, config)
+      .post("http://localhost:8080/api/auth/signin", body, config)
       .then(res => {
           console.log('Successfull logged in!')
           dispatch({type: LOGIN_SUCCESS, payload: res.data});

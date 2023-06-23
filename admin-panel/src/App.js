@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 import store from "./store";
 import { Provider } from "react-redux";
+import Registration from './pages/Register';
 
 const MainLayout = ({ children }) => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
       <Router>
         <Switch>
           <Route path="/login" component={Login} />
+          <Route path="/register" component={Registration} />
           <Route
             path="/"
             render={() => (

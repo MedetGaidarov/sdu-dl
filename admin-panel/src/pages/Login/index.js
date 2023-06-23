@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { connect, useDispatch } from 'react-redux';
 import { login } from '../../actions/authActions';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 const useStyles = makeStyles({
   root: {
     marginTop: 50,
@@ -39,6 +40,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("")
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const responseGoogle = (response) => {
     console.log(response);
@@ -100,7 +102,11 @@ const Login = () => {
           Sign in
         </Button>
       </form>
-   
+      <button
+                onClick={() => history.push('/register')}
+            >
+                Go to Registration
+            </button>
     </Container>
   );
 };
