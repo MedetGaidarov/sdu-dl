@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Container, TextField, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import { StarRateOutlined } from '@mui/icons-material';
+import { postTestCenter } from '../../actions/testCenterActions';
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles({
   root: {
@@ -28,38 +29,14 @@ const useStyles = makeStyles({
   },
 });
 
-function TestCenterEdit() {
+function AddTestCenter() {
   const classes = useStyles();
-  const { id } = useParams();
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [state, setState] = useState('');
   const [zip, setZip] = useState('');
   const navigate = useNavigate()
-  // Fetch test center data based on the ID from an API or other data source
-  // For this example, let's assume you have a function named `fetchTestCenter` that returns the test center data based on the ID
-  const fetchTestCenter = async () => {
-    try {
-      // Make an API request to fetch the test center data
-      const response = await fetch(`http://localhost:8080/api/testcenters/${id}`);
-      const data = await response.json();
-
-      // Update the form fields with the fetched test center data
-      setName(data.name);
-      setAddress(data.address);
-      setCity(data.city);
-      setState(data.state);
-      setZip(data.zip);
-    } catch (error) {
-      console.error('Failed to fetch test center:', error);
-    }
-  };
-
-  // Call the fetchTestCenter function when the component mounts
-  useEffect(() => {
-    fetchTestCenter();
-  }, []);
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -83,33 +60,34 @@ function TestCenterEdit() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
-    // Create the testCenter object with the updated values
-    const testCenter = {
-      name,
-      address,
-      city,
-      state,
-      zip
-    };
-  
-    try {
-      // Make an API request to update the test center data
-      const response = await axios.put(`http://localhost:8080/api/testcenters/${id}`, testCenter);
-  
-      // Handle the response from the server as needed
-      console.log("Test center updated successfully:", response.data);
-      navigate('/testcenters')
-    } catch (error) {
-      // Handle the error from the server if the request fails
-      console.error("Failed to update test center:", error);
+    // Perform the submit logic here, such as making an API request to add the test center
+    // You can use the values from the state variables (name, address, city, state, zip) in the API request
+
+    // Clear the form fields after submitting
+    const testCenter = 
+    {
+        name : name,
+        address : address,
+        city: city,
+        state: state,
+        zip : zip
     }
+
+    await postTestCenter(testCenter)
+    setName('');
+    setAddress('');
+    setCity('');
+    setState('');
+    setZip('');
+    
+    navigate('/testcenters')
+
   };
 
   return (
     <Container maxWidth="xs" className={classes.root}>
       <Typography variant="h4" align="center" gutterBottom>
-        Edit Test Center
+        Add Test Center
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
@@ -158,11 +136,11 @@ function TestCenterEdit() {
           className={classes.submitButton}
           type="submit"
         >
-          Update Test Center
+          Add Test Center
         </Button>
       </form>
     </Container>
   );
 }
 
-export default TestCenterEdit;
+export default AddTestCenter;

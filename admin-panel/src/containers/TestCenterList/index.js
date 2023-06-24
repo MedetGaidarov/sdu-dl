@@ -8,12 +8,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
+import { useNavigate } from "react-router-dom";
 
 const TestCenterList = ({ testCenters }) => {
   // const [testCenters, setTestCenters] = React.useState([])
   const [open, setOpen] = React.useState(false);
   const [deleteId, setDeleteId] = React.useState(null);
-
+  const navigate = useNavigate();
   const handleOpen = (id) => {
     setDeleteId(id);
     setOpen(true);
@@ -109,7 +110,16 @@ const TestCenterList = ({ testCenters }) => {
           </DialogActions>
         </Dialog>
       </CardContent>
+      <Button 
+              variant="contained"
+              onClick={() =>
+                navigate('/testcenters-add')
+              }
+            >
+              Добавить Тест Центр
+              </Button>
     </Card>
+    
   );
 };
 

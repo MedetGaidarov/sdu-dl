@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 
 import Registration from './pages/Register';
 import Users from './pages/Users';
+import AddTestCenter from './components/addTestCenter/AddTestCenter';
 
 
 const MainLayout = ({ children }) => {
@@ -56,12 +57,10 @@ const App = () => {
      
     };
 
-      if(isLoggedIn) {
+
         fetchTestCenters();
-        navigate('/');
-      } else {
-        navigate('/login');
-      }
+       
+     
   
   }, [isLoggedIn]);
   return (
@@ -71,30 +70,11 @@ const App = () => {
 
 
         <Routes>
-          <Route path="/login" element = {<Login/>} />
-          <Route path="/register" element = {<Registration/>} /> 
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<Home />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/appointments" element={<Appointments />} />
-            <Route path="/test-centers" element={<TestCenters />} />
-            <Route
-              path="/test-centers"
-              element={<TestCenterList testCenters={testCenters} />}
-            />
-            <Route
-              path="test-center/:id"
-              element={(props) => {
-                const testCenter = testCenters.find(
-                  (tc) => tc.id === parseInt(props.match.params.id, 10)
-                );
-                return testCenter ? (
-                  <TestCenter testCenter={testCenter} />
-                ) : null;
-              }}
-            />
-          </Route>
-       </Routes>
+          <Route path='/testcenters'   element= { <TestCenterList testCenters={testCenters} />} />
+          <Route path="/testcenters-add"   element= { <AddTestCenter/>} />
+          <Route path="/editTestCenter/:id" element={<TestCenterEdit />} />
+
+        </Routes>
      
 
 
