@@ -73,7 +73,7 @@ const App = () => {
           <Route path='/testcenters'   element= { <TestCenterList testCenters={testCenters} />} />
           <Route path="/testcenters-add"   element= { <AddTestCenter/>} />
           <Route path="/editTestCenter/:id" element={<TestCenterEdit />} />
-
+          <Route path="/testcenter/:id" element={<TestCenter />}/>
         </Routes>
      
 

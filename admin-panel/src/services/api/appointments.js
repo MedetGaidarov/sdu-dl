@@ -7,7 +7,7 @@ export const getAppointmentsByTestCenterId = async (testCenterId) => {
     );
     const appointments = await response.json();
 
-    return mockAppointments;
+    return appointments.content;
   } catch (error) {
     console.error("Error fetching appointments:", error);
     throw error;

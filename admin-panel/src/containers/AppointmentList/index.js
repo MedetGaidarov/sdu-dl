@@ -1,48 +1,67 @@
-import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import React, { useState } from "react";
+import { DataGrid } from "@mui/x-data-grid";
+import { Button, Card, CardContent } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const AppointmentList = ({ appointments }) => {
-    const getStatusColor = (status) => {
-        switch (status) {
-          case 'SCHEDULED':
-            return 'green';
-          case 'CANCELED':
-            return 'red';
-          case 'COMPLETED':
-          default:
-            return 'blue';
-        }
-      };
+  const navigate = useNavigate();
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "scheduled":
+        return "green";
+      case "canceled":
+        return "red";
+      case "completed":
+        return "blue";
+      default:
+        return "";
+    }
+  };
+
+  const columns = [
+    { field: "id", headerName: "ID", width: 70 },
+    { field: "date", headerName: "Date", width: 130 },
+    { field: "time", headerName: "Time", width: 130 },
+    { field: "status", headerName: "Status", width: 130,
+      renderCell: (params) => {
+        return <div style={{ color: getStatusColor(params.value) }}>{params.value}</div>
+      } 
+    },
+    { field: "email", headerName: "Email", width: 200 },
+  ];
+
+  const handleClick = (id) => {
+    // you can implement the action when the user clicks on a row.
+  };
+
   return (
-    <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell>Time</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Email</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {appointments.map((appointment) => (
-            <TableRow key={appointment.id}>
-              <TableCell>{appointment.id}</TableCell>
-              <TableCell>{appointment.date}</TableCell>
-              <TableCell>{appointment.time}</TableCell>
-              <TableCell>{appointment.email}</TableCell>
-  
-              <TableCell>
-                <span style={{ color: getStatusColor(appointment.appointmentStatus) }}>
-                  {appointment.appointmentStatus}
-                </span>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Card>
+      <CardContent>
+        <DataGrid
+          rows={appointments.map((appointment) => ({
+            id: appointment.id,
+            date: appointment.date,
+            time: appointment.time,
+            status: appointment.status,
+            email: appointment.email,
+          }))}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          onRowClick={(rowParams) => handleClick(rowParams.row.id)}
+        />
+        <Button 
+          variant="contained"
+          onClick={() =>
+            navigate('/appointments-add')
+          }
+        >
+          Добавить
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
 

@@ -45,7 +45,7 @@ const TestCenterList = ({ testCenters }) => {
               variant="contained"
               color="primary"
               onClick={() =>
-                (window.location.href = `/test-center/${params.row.id}`)
+                (window.location.href = `/testcenter/${params.row.id}`)
               }
             >
               Брони
