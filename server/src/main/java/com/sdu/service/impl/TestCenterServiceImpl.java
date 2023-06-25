@@ -20,10 +20,6 @@ public class TestCenterServiceImpl implements TestCenterService {
     @Autowired
     private TestCenterRepository testCenterRepository;
 
-    @Autowired
-    private TimeSlotScheduler timeSlotScheduler;
-
-//        timeSlotScheduler.generateTimeSlotsForNextTenDays();
 
     @Override
     public TestCenter createTestCenter(TestCenterRequestDTO testCenterRequestDTO) {
@@ -32,6 +28,7 @@ public class TestCenterServiceImpl implements TestCenterService {
 //                .address(testCenterRequestDTO.getAddress())
 //                .name(testCenterRequestDTO.getName())
 //                .city(testCenterRequestDTO.getCity()).build();
+
 
 
         return testCenterRepository.save(TestCenter.builder()
@@ -72,6 +69,8 @@ public class TestCenterServiceImpl implements TestCenterService {
             existingTestCenter.setName(testCenter.getName());
             existingTestCenter.setAddress(testCenter.getAddress());
             existingTestCenter.setCity(testCenter.getCity());
+            existingTestCenter.setState(testCenter.getState());
+            existingTestCenter.setZip(testCenter.getZip());
             return testCenterRepository.save(existingTestCenter);
         }
         return null;

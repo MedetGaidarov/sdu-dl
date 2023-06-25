@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router , Routes, Route, useNavigate} from 'react-router-dom';
+import { BrowserRouter as Router , Routes, Route, useNavigate, HashRouter} from 'react-router-dom';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Appointments from './pages/Appointments';
@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import Registration from './pages/Register';
 import Users from './pages/Users';
 import AddTestCenter from './components/addTestCenter/AddTestCenter';
+import DefaultLayout from './layout';
 
 
 const MainLayout = ({ children }) => {
@@ -32,51 +33,58 @@ const MainLayout = ({ children }) => {
 
 
 const App = () => {
-  const [testCenters, setTestCenters] = useState([]);
-  const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  console.log(isLoggedIn)
-  const navigate = useNavigate();
+  // const [testCenters, setTestCenters] = useState([]);
+  // const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  // console.log(isLoggedIn)
+  // const navigate = useNavigate();
 
   
-  useEffect(() => {
-    const fetchTestCenters = async () => {
-      try {
-        const data = await getTestCenters();
+  // useEffect(() => {
+  //   const fetchTestCenters = async () => {
+  //     try {
+  //       const data = await getTestCenters();
 
-        if (!Array.isArray(data)) {
-          console.error('testCenters is not an array:', data);
-          return;
-        }
-        setTestCenters(data);
+  //       if (!Array.isArray(data)) {
+  //         console.error('testCenters is not an array:', data);
+  //         return;
+  //       }
+  //       setTestCenters(data);
 
-        console.log(testCenters, "mytests");
-      } catch (error) {
-        console.error("Error fetching test centers:", error);
-      }
+  //       console.log(testCenters, "mytests");
+  //     } catch (error) {
+  //       console.error("Error fetching test centers:", error);
+  //     }
 
      
-    };
+  //   };
 
 
-        fetchTestCenters();
+  //       fetchTestCenters();
        
      
   
-  }, [isLoggedIn]);
+  // }, [isLoggedIn]);
   return (
 
      
      
 
+    <HashRouter>
 
-        <Routes>
-          <Route path='/testcenters'   element= { <TestCenterList testCenters={testCenters} />} />
-          <Route path="/testcenters-add"   element= { <AddTestCenter/>} />
-          <Route path="/editTestCenter/:id" element={<TestCenterEdit />} />
+   
+    <Routes>
+          
+
+          <Route exact path="/login" name="Login Page" element={<Login />} />
+          <Route exact path="/register" name="Register Page" element={<Registration />} />
+          <Route path="/testcenters" element={<TestCenterList />}/>
+          <Route path="/testcenters-add" element={<AddTestCenter />}/>
+          <Route path="/editTestCenter/:id" element={<TestCenterEdit />}/>
           <Route path="/testcenter/:id" element={<TestCenter />}/>
-        </Routes>
-     
-
+          <Route path="*" name="Home" element={<DefaultLayout />} />
+        
+  </Routes>
+  </HashRouter>
 
   );
 };

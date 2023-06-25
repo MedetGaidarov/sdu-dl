@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @RestController
@@ -67,13 +68,14 @@ public class AuthController {
         User user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(
 
         );
-        //check password
-        LoginResponse loginResponse = LoginResponse.builder().username(loginRequest.getUsername()).loggedIn(Boolean.FALSE).build();
+        LoginResponse loginResponse = LoginResponse.builder().username(loginRequest.getUsername()).build();
 
         if(user.getPassword().equals(loginRequest.getPassword()))
         {
-            loginResponse.setLoggedIn(Boolean.TRUE);
+            String token = UUID.randomUUID().toString();
+            loginResponse.setToken(token);
             return ResponseEntity.ok(loginResponse);
+
         }
         return new ResponseEntity<>(loginResponse,HttpStatus.UNAUTHORIZED);
     }

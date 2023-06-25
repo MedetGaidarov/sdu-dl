@@ -11,6 +11,9 @@ import org.springframework.stereotype.Component;
 
 import com.sdu.model.TestCenter;
 import com.sdu.repository.TestCenterRepository;
+
+import javax.annotation.PostConstruct;
+
 @Component
 public class TimeSlotScheduler {
     @Autowired

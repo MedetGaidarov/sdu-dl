@@ -10,6 +10,6 @@ import lombok.*;
 @Setter
 public class LoginResponse {
     String username;
-    Boolean loggedIn;
+    String token;
 
 }
