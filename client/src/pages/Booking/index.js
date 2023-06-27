@@ -89,7 +89,7 @@ const Booking = () => {
       onClick: () => {
         /* Scroll to content 2 */
       },
-    }
+    },
   ];
 
   const location = useLocation();
@@ -156,8 +156,11 @@ const Booking = () => {
           border: "1px solid #ddd",
           boxShadow: "0px 10px 15px rgba(0, 0, 0, 0.1)",
           borderRadius: "10px",
-          padding: "2em",
+          // padding: "2em",
           backgroundColor: "#fff",
+          overflow: "auto",
+          height: "100vh",
+          position: "relative",
         }}
       >
         <StyledAppBar position="fixed">
@@ -199,10 +202,13 @@ const Booking = () => {
         <Grid
           container
           direction="column"
-          justifyContent="center"
+          // justifyContent="center"
           alignItems="center"
           spacing={3}
-          style={{ margin: isMobile ? "100px 0 30px 0  " : "159px 0", width: "100%" }} // Set to full viewport height
+          style={{
+            margin: isMobile ? "100px 0 30px 0  " : "159px 0",
+            width: "100%",
+          }} // Set to full viewport height
         >
           <Switch>
             <Route path="/booking" exact>
@@ -232,9 +238,14 @@ const Booking = () => {
               <Grid item>
                 <ProgressIndicator activeStep={2} />
               </Grid>
-                    
-              <Grid container item>
-                <Grid item xs={12} md={8}>
+
+              <Grid
+                container
+                item
+                justifyContent="space-around" // Creates equal space around each grid item
+                alignItems="center" // Centers children on the vertical line
+              >
+                <Grid item xs={12} md={7}>
                   <LocalizationProvider
                     dateAdapter={AdapterDayjs}
                     sx={{ margin: "0 0 0 10px" }}
