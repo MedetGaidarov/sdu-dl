@@ -105,6 +105,7 @@ const Booking = () => {
     const fetchData = async () => {
       const testCenters = await getTestCenters();
       setTestCenters(testCenters);
+      console.log(testCenters);
     };
 
     fetchData();
@@ -112,11 +113,17 @@ const Booking = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (selectedTestCenter && selectedDate) {
-        const testCenterId = testCenters[selectedTestCenter - 1].id;
+      const selectedTestCenterObj = testCenters.find(
+        (center) => center.id === selectedTestCenter
+      );
+
+      if (selectedTestCenterObj) {
+        const testCenterId = selectedTestCenterObj.id;
         let dateOnly = selectedDate.toISOString().split("T")[0];
         let timeSlots = await fetchAvailableTimes(dateOnly, testCenterId);
         setTimeSlots(timeSlots);
+      } else {
+        console.error(`No test center found with id: ${selectedTestCenter}`);
       }
     };
     fetchData();
@@ -245,7 +252,7 @@ const Booking = () => {
                 justifyContent="space-around" // Creates equal space around each grid item
                 alignItems="center" // Centers children on the vertical line
               >
-                <Grid item xs={12} md={7}>
+                <Grid item xs={12} md={9}>
                   <LocalizationProvider
                     dateAdapter={AdapterDayjs}
                     sx={{ margin: "0 0 0 10px" }}
@@ -264,7 +271,7 @@ const Booking = () => {
                     />
                   </LocalizationProvider>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={15} md={9}>
                   <TimeSelection
                     times={timeSlots}
                     selectedTime={selectedTime}

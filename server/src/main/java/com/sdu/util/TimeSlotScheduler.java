@@ -22,6 +22,8 @@ public class TimeSlotScheduler {
     @Autowired
     private TestCenterRepository testCenterRepository;
 
+
+    @PostConstruct
     @Scheduled(cron = "0 0 0 */10 * ?") // Run every 10 days at midnight
     public void generateTimeSlotsForNextTenDays() {
         List<TestCenter> testCenters = testCenterRepository.findAll();

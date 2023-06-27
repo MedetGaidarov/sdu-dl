@@ -40,4 +40,8 @@ public class TestCenter {
 
     private String zip;
 
+    @OneToMany(mappedBy = "testCenter", cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
+
+
 }

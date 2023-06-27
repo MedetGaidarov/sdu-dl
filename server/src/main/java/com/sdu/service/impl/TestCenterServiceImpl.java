@@ -78,7 +78,12 @@ public class TestCenterServiceImpl implements TestCenterService {
 
     @Override
     public void deleteTestCenter(Long id) {
-        testCenterRepository.deleteById(id);
+        Optional<TestCenter> testCenterOptional = testCenterRepository.findById(id);
+        if(testCenterOptional.isPresent()){
+            testCenterRepository.delete(testCenterOptional.get());
+        } else {
+            // handle error when no test center found with given id
+        }
     }
 
 }

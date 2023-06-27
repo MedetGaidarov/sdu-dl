@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Button, Box, AppBar, Toolbar, Typography, Container, Card, CardMedia, CssBaseline, useMediaQuery, useTheme ,Grid } from '@mui/material';
 import { styled } from '@mui/system';
-import logo from './assets/2.png'
+import logo from './assets/logo.png'
 import carImage from './assets/1.png'
 import avtoDromImage from './assets/avtodrom.png'
 import {Link} from 'react-router-dom'

@@ -17,9 +17,29 @@ const TestCenterList = ({ testCenters }) => {
   const [open, setOpen] = React.useState(false)
   const [deleteId, setDeleteId] = React.useState(null)
   const navigate = useNavigate()
+
+  const handleDeleteTestCenter = (id) => {
+    fetch(`http://localhost:8080/api/testcenters/${id}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw res
+        }
+        // Delete was successful, handle it here
+        // You could update your state to remove the deleted test center, for example
+        setOpen(false)
+      })
+      .catch((err) => {
+        console.error('Failed to delete test center:', err)
+        // Handle any errors here
+      })
+  }
+
   const handleOpen = (id) => {
     setDeleteId(id)
     setOpen(true)
+    handleDeleteTestCenter(id)
   }
 
   const handleClose = () => {

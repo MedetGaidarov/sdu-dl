@@ -36,17 +36,15 @@ const TimeSelection = ({ times, onTimeSlotChange }) => {
         boxShadow: "0px 5px 5px rgba(0, 0, 0, 0.1)",
         borderRadius: "10px",
         backgroundColor: "#fff",
-        
+        // overflow: "auto",
+        // position: "relative",
       }}
     >
       <Grid
-
         sx={{
-          padding: isMobile ? "10px" : "100px 50px 50px 100px",
-          margin: isMobile ? "" : "20px 40px 40px 20px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          padding: isMobile ? "10px" : "100px 50px",
+          margin: isMobile ? "" : "20px 40px",
+          height: "30%"
         }}
       >
         {times.length ? (
@@ -91,7 +89,7 @@ const TimeSelection = ({ times, onTimeSlotChange }) => {
           flexDirection: isMobile ? "column" : "row",
           justifyContent: "space-around",
           margin: isMobile ? "20px 30px" : "20px 40px",
-          padding: "30px"
+          padding: "30px",
         }}
       >
         <Button

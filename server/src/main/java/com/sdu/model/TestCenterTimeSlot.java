@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -30,6 +31,10 @@ public class TestCenterTimeSlot {
     @JsonBackReference
     private TestCenter testCenter;
 
-    private Boolean booked; 
-    
+    private Boolean booked;
+
+    @OneToMany(mappedBy = "timeSlot", cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
+
+
 }
